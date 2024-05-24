@@ -100,8 +100,9 @@ class AccountManager(ModelManager):
 
     def display_contact(self, account_obj:object) -> None:
         for contact in account_obj.contacts_obj:
-            print('-'*100)
-            print(contact)
+            # print('-'*100)
+           return str(contact)
+
 
 class ContactManager(ModelManager):
     def __init__(self, db_manager_obj):
