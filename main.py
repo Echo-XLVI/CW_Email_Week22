@@ -48,7 +48,7 @@ def send_massage(acc_obj:object):
     send_manager_obj.send_message(subject = subject , to_email = to_email , send_message = send_massage)
 
 def delete(acc_obj:object):
-    pass
+    inbox_manager_obj.delete_message(acc_obj)
 
 def logged_in_menu(acc_obj:object):
     inbox_manager_obj.recieve_message(acc_obj)
