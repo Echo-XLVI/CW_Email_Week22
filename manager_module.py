@@ -103,6 +103,7 @@ class AccountManager(ModelManager):
             print('-'*100)
             print(contact)
 
+
 class ContactManager(ModelManager):
     def __init__(self, db_manager_obj):
         super().__init__(db_manager_obj, 'contacts', Accounts)
@@ -116,8 +117,9 @@ class InboxManager(ModelManager):
     def __init__(self, db_manager_obj):
         super().__init__(db_manager_obj, 'inbox', Inbox)
 
-    def recieve_message(self):
-        pass
+    def recieve_message(self, acc_obj:object) -> None:
+        messages = self.select({'logic_delete':False})
+        acc_obj.inbox = [self.model_class(**message) for message in messages]
 
     def delete_message(self):
         pass

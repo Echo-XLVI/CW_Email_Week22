@@ -1,10 +1,11 @@
 import os
 from  databaseconnection import DataBaseConnection
-from manager_module import ContactManager,AccountManager
+from manager_module import ContactManager,AccountManager,SentManager,InboxManager
 
 db_manager_obj = DataBaseConnection()
 contact_manager_obj = ContactManager(db_manager_obj)
 account_manager_obj = AccountManager(db_manager_obj, contact_manager_obj)
+inbox_manager_obj = InboxManager(db_manager_obj)
 
 def main():
     email = input('Enter your email address:')
@@ -36,6 +37,7 @@ def contact_menu(acc_obj:object):
 
 
 def logged_in_menu(acc_obj:object):
+    inbox_manager_obj.recieve_message(acc_obj)
     while True:
         os.system('cls')
         print("1.Send message\n2.Inbox message\n3.Delete message\n4.Contact menu\n5.Exit")
@@ -44,7 +46,9 @@ def logged_in_menu(acc_obj:object):
             case 1:
                 pass
             case 2:
-                pass
+                acc_obj.show_inbox()
+                message_index = int(input("Choose an email:"))
+                ## TODO: showing a message with mote detail
             case 3:
                 pass
             case 4:
