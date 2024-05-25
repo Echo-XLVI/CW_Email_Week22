@@ -1,10 +1,14 @@
 import os
 from  databaseconnection import DataBaseConnection
 from manager_module import ContactManager,AccountManager
+from manager_module import  SentManager
+
+
 
 db_manager_obj = DataBaseConnection()
 contact_manager_obj = ContactManager(db_manager_obj)
 account_manager_obj = AccountManager(db_manager_obj, contact_manager_obj)
+send_manager_obj = SentManager(db_manager_obj)
 
 def main():
     email = input('Enter your email address:')
@@ -36,6 +40,17 @@ def contact_menu(acc_obj:object):
                 print('Invalid Option!!!')
 
 
+def send_massage(acc_obj:object):
+    # origin_acc_obj, send_message , subject , to_email 
+    to_email = input("enter email that want to send message ")
+    subject = input("enter subject ")
+    if not subject :
+        raise ValueError ("subject is neccesary")
+    send_massage = input("enter message ")
+    send_manager_obj.send_message(subject = subject , to_email = to_email , send_message = send_massage)
+
+def delete(acc_obj:object):
+    pass
 
 def logged_in_menu(acc_obj:object):
     while True:
