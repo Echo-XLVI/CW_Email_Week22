@@ -94,7 +94,7 @@ class AccountManager(ModelManager):
         res=self.select({'email_address':email})  # res =[()]
         if res:
             logged_account = self.model_class(**res)
-            # print(logged_account)                                               # Baraye khanom Montahaee (XD Didin shod!!!!!)
+            # print(logged_account)                   # Baraye khanom Montahaee (XD Didin shod!!!!!)
             logged_account.contacts_obj=self.contact_manager_obj.export_contact(res['acc_id'])
             return logged_account
 
@@ -103,6 +103,12 @@ class AccountManager(ModelManager):
             print('-'*100)
             print(contact)
 
+    def show_trash(self, acc_obj:object) ->None:
+        data = self.select({'logic_delete':True,'acc_id':acc_obj.acc_id})
+        print(100*"-")
+        for key,val in data.items():
+            print(f"{key}:{val}",end="  ")
+        print(100*"-")
 
 class ContactManager(ModelManager):
     def __init__(self, db_manager_obj):
@@ -112,13 +118,12 @@ class ContactManager(ModelManager):
         data = self.join_contact(parent_id)
         return [self.model_class(**contact) for contact in data]
     
-
 class InboxManager(ModelManager):
     def __init__(self, db_manager_obj):
         super().__init__(db_manager_obj, 'inbox', Inbox)
 
     def recieve_message(self, acc_obj:object) -> None:
-        messages = self.select({'logic_delete':False})
+        messages = self.select({'logic_delete':False,'acc_id':acc_obj.acc_id})
         acc_obj.inbox = [self.model_class(**message) for message in messages]
 
     def delete_message(self):

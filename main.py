@@ -40,7 +40,7 @@ def logged_in_menu(acc_obj:object):
     inbox_manager_obj.recieve_message(acc_obj)
     while True:
         os.system('cls')
-        print("1.Send message\n2.Inbox message\n3.Delete message\n4.Contact menu\n5.Exit")
+        print("1.Send message\n2.Inbox message\n3.Delete message\n4.Contact menu\n5.Show Trash\n6.Exit")
         op=int(input("Choose an option:"))
         match op:
             case 1:
@@ -54,6 +54,8 @@ def logged_in_menu(acc_obj:object):
             case 4:
                 contact_menu(acc_obj)
             case 5:
+                db_manager_obj.show_trash(acc_obj)
+            case 6:
                 break
             case __:
                 print('Invalid Option!!!')
