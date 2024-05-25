@@ -101,7 +101,10 @@ class AccountManager(ModelManager):
     def display_contact(self, account_obj:object) -> None:
         for contact in account_obj.contacts_obj:
             # print('-'*100)
-           return str(contact)
+            print(contact)
+        #    return str(contact)
+
+ 
 
 
 class ContactManager(ModelManager):
@@ -118,17 +121,67 @@ class InboxManager(ModelManager):
         super().__init__(db_manager_obj, 'inbox', Inbox)
 
     def recieve_message(self):
+        # selct mesage seen false in inbox 
+        # in format from email with subject dispaly to account 
+        # dispaly message 
+        # seen_mssage(id_message)
         pass
 
-    def delete_message(self):
-        pass
+    def delete_message(self , acc_obj):
+
+        acc_obj.show_inbox()
+
+        choose = int(input("choose what email do you want to delete"))
+        message_obj=acc_obj.inbox[choose]
+
+        query = """ DELETE FROM inbox WHERE message_id = %s"""
+        param = (message_obj.message.id)
+        with self.db_manager_obj as db :
+            db.cursor.execute()
 
     def seen_massage(self):
-        pass        
+        # culmn seen message    true   
+        pass  
 
 class SentManager(ModelManager):
     def __init__(self, db_manager_obj):
         super().__init__(db_manager_obj, 'sent', Sent)   
 
-    def send_message(self):
-        pass
+    def send_message(self ,origin_acc_obj, send_message , subject , to_email ):
+        #fetch info from destination email 
+        qury_to_fetch = """ SELECT * FROM  accounts WHERE email_address = %s"""
+        param_to_fetch =(to_email,) 
+        with self.db_manager_obj as db:
+            db.cursor.execute(qury_to_fetch , param_to_fetch)
+            result = db.cursor.fetchall()
+
+            columns = [desc[0] for desc in db.cursor.description]
+        dest_acc_obj = self.model_class(dict(zip(columns , result)))
+
+
+        if dest_acc_obj :
+            #todo transaction
+            qury_to_send_origin = """ INSERT INTO sent values (%s,%s,%s,%s)"""
+            params_to_send_origin =(origin_acc_obj.acc_id , to_email , subject , send_message)
+            with self.db_manager_obj as db :
+                db.cursor.execute(qury_to_send_origin , params_to_send_origin)
+
+
+            qury_to_inbox_dest = """ INSERT INTO inbox values (%s,%s,%s,%s)"""
+            params_to_inbox_dest =(dest_acc_obj.acc_id , origin_acc_obj.email_addres , subject , send_message)
+            with self.db_manager_obj as db :
+                db.cursor.execute(qury_to_inbox_dest , params_to_inbox_dest)
+
+
+        else :
+            raise ValueError ("this email is not found try correct email")
+
+
+        
+
+        # take mesage subject account_destination
+        # exiting email fetch acc_destination
+        # query for inseert message to inbox email destination seen false  and send email origin 
+        # message to send compelete 
+        
+

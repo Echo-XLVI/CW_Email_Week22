@@ -17,6 +17,8 @@ def main():
 def wait_for_key():
     input("To continue press enter...")
 
+
+
 def contact_menu(acc_obj:object):
     while True:
         os.system('cls')

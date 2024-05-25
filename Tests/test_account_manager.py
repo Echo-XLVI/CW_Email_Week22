@@ -20,13 +20,13 @@ class TestLogin(unittest.TestCase):
         con_acc2 = Accounts(acc_id=4,email_address='mehrzad@gmail.com',phone='0912')
         self.main_acc.contacts_obj = [con_acc1,con_acc2]
 
-    # @unittest.skip("skip shod")
-    # def test_login(self):
-    #     email = 'reza@gmail.com'
-    #     email2 = "rezaee@gmail.com" # for failing test        
-    #     logged_in_obj = self.account_manager_obj.login(email)
-    #     self.assertIsNotNone(logged_in_obj)
-    #     self.assertEqual(email,logged_in_obj.email_address)
+    @unittest.skip("skip shod")
+    def test_login(self):
+        email = 'reza@gmail.com'
+        email2 = "rezaee@gmail.com" # for failing test        
+        logged_in_obj = self.account_manager_obj.login(email)
+        self.assertIsNotNone(logged_in_obj)
+        self.assertEqual(email,logged_in_obj.email_address)
     
     def test_display(self):
         str1 = self.account_manager_obj.display_contact(self.main_acc)
