@@ -4,9 +4,9 @@ class DataBaseConnection:
     CONFIG={
          'dbname':'emaildb',
          'host':'localhost',
-         'port':5060,
+         'port':5648,
          'user':'postgres',
-         'password':'TY@%57rk'
+         'password':'1380ACreZA46'
     }
     def __init__(self) -> None:
         self.connection_obj=None
