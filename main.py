@@ -1,6 +1,7 @@
 import os
 from  databaseconnection import DataBaseConnection
 from manager_module import ContactManager,AccountManager,SentManager,InboxManager
+from validation import Validation
 
 db_manager_obj = DataBaseConnection()
 contact_manager_obj = ContactManager(db_manager_obj)
@@ -9,7 +10,9 @@ inbox_manager_obj = InboxManager(db_manager_obj)
 send_manager_obj = SentManager(db_manager_obj)
 
 def main():
+
     email = input('Enter your email address:')
+    Validation.email_validation(email=email)
     acc_obj = account_manager_obj.login(email)
     if acc_obj:
         logged_in_menu(acc_obj)
